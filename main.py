@@ -13,19 +13,12 @@ uri = os.environ.get("DATABASE_URL")  # or other relevant config var
 if uri and uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 
-account.create_table_project_dev()
-account.create_table_projects()
-account.create_table_ticket()
-account.create_table_ticket_comment()
-account.create_table_user()
-
 year = datetime.datetime.now().year
 env = dotenv_values(".env")
 app = Flask(__name__)
-account.create_database()
 app.secret_key = env.get(
     'FLASK_SECRET_KEY') or os.environ.get('FLASK_SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = uri
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bug_tracker.db' or uri
 login_manager = LoginManager()
 login_manager.init_app(app)
 db = SQLAlchemy(app)
