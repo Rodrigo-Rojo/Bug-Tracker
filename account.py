@@ -163,7 +163,7 @@ def get_ticket_by_id(id):
 def get_project_devs(project_id):
     conn = sqlite3.connect(database="bug_tracker.db")
     cur = conn.cursor()
-    sql = f''' SELECT user.id, user.first_name, user.last_name, user.role, user.email 
+    sql = f''' SELECT DISTINCT user.id, user.first_name, user.last_name, user.role, user.email 
                FROM project_dev 
                LEFT JOIN user 
                ON user.id = project_dev.user_id 
@@ -177,7 +177,7 @@ def get_project_devs(project_id):
 def get_user_projects(id):
     conn = sqlite3.connect(database="bug_tracker.db")
     cur = conn.cursor()
-    sql = f''' SELECT *
+    sql = f''' SELECT DISTINCT *
                FROM project_dev 
                LEFT JOIN project
                ON project.id = project_dev.project_id
@@ -217,6 +217,25 @@ def del_dev_from_project(id):
                WHERE user_id = {id}; '''
     cur.execute(sql)
     conn.commit()
+    conn.close()
+
+
+def del_duplicate_devs():
+    conn = sqlite3.connect(database="bug_tracker.db")
+    cur = conn.cursor()
+    sql = f''' SELECT id, user_id, project_id, count(*)
+               FROM project_dev
+               GROUP by user_id, project_id
+               HAVING COUNT(*)>1; '''
+    cur.execute(sql)
+    data = cur.fetchall()
+    for id, user_id, project_id, count in data:
+        while count > 1:
+            sql = f''' DELETE from project_dev
+                       WHERE id = {id} '''
+            cur.execute(sql)
+            conn.commit()
+            count -= 1
     conn.close()
 
 

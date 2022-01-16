@@ -5,6 +5,13 @@
         <!-- Project Section -->
 
     <div class="project-container grid">
+        {% if get_flashed_messages() %}
+            {% with messages = get_flashed_messages() %}
+            <div class="alert alert-danger" role="alert">
+                {{ messages[0] }}
+            </div>
+            {% endwith %}
+            {% endif %}
         <div class="project-description grid">
             <h4>Project Name</h4>
             <h4 class="second-item">Project Description</h4>
@@ -86,12 +93,13 @@
                         <form method="post" action="{{url_for('edit_project')}}">
                             <div class="edit-project-container-form grid">
                                 <div>
-                                    <label for="project-name">Project Name:</label>
+                                    <label for="project-name">Project Name:</label><br>
                                     <input value="{{project[1]}}" type="text" name="name">
                                 </div>
                                 <div>
                                     <label for="project-description">Project Description:</label>
-                                    <input value="{{project[2]}}" type="text" name="description">
+                                    <!-- <input width="48" height="48" value="{{project[2]}}" type="textarea" name="description"> -->
+                                    <textarea name="description" rows="4" cols="50">{{project[2]}}</textarea>
                                 </div>
                                 <input style="display: none;" type="text" value="{{project[0]}}" name="id">
                             </div>
@@ -216,7 +224,7 @@
             </div>
         </div>
     </div>
-
+</div>
 
 
     {% include "footer.html" %}

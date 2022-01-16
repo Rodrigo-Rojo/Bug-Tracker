@@ -63,7 +63,8 @@
             <p class="user_data">{{comment[1]}}</p>
             <p class="second-item user_data">{{comment[3]}}</p>
             {% if current_user.role == "Admin" %}
-            <a class="last-item" href="{{url_for('del_comment', id=comment[0], post_id=ticket[0])}}">❌</a>
+            <a class="last-item"
+                href="{{url_for('del_comment', id=comment[0], post_id=ticket[0], project_id=ticket[10])}}">❌</a>
             {% endif %}
 
             <p class="text">{{comment[2]}}</p>
@@ -71,10 +72,11 @@
         {% endfor %}
     </div>
     <div class="ticket-edit-container">
-
     </div>
-
 </div>
+
+<!-- Edit Ticket Modal -->
+
 <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
@@ -140,19 +142,19 @@
                                     <option value="Training/Document Request">Training/Document Request</option>
                                 </select>
                             </div>
-                            <input style="display: none;" name="project_id" type="text" value="{{ticket[11]}}">
+                            <input style="display: none;" name="project_id" type="text" value="{{ticket[10]}}">
                             <input style="display: none;" name="ticket_id" type="text" value="{{ticket[0]}}">
 
 
                         </div>
-                        
-                    </div>
+
                 </div>
-                <div class="modal-footer">
-                    <input class="edit-ticket-submit" type="submit" value="Update Ticket">
-                    <a class="delete-ticket" href="{{url_for('del_ticket', project_id=ticket[11], id=ticket[0])}}">Delete
-                        Ticket</a>
-                    </form>
+            </div>
+            <div class="modal-footer">
+                <input class="edit-ticket-submit" type="submit" value="Update Ticket">
+                <a class="delete-ticket" href="{{url_for('del_ticket', project_id=ticket[10], id=ticket[0])}}">Delete
+                    Ticket</a>
+                </form>
             </div>
         </div>
     </div>

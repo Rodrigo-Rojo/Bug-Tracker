@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+    <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="static/css/login.css">
 </head>
 
@@ -21,7 +24,42 @@
             <button type="submit" class="btn btn-primary btn-block btn-large">Register</button>
         </form>
     </div>
-
+    <footer>
+        <div class="container">
+          <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+              <ul class="list-inline text-center">
+                <li class="list-inline-item">
+                  <a href="https://twitter.com/SoriOner">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="https://www.linkedin.com/in/rodrigo-rojo/">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-linkedin-in fa-stack-1x fa-inverse"></i>
+                      <!-- <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i> -->
+                    </span>
+                  </a>
+                </li>
+                <li class="list-inline-item">
+                  <a href="https://github.com/Rodrigo-Rojo/Bug-Tracker">
+                    <span class="fa-stack fa-lg">
+                      <i class="fas fa-circle fa-stack-2x"></i>
+                      <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                    </span>
+                  </a>
+                </li>
+              </ul>
+              <p class="copyright text-muted">Copyright &copy; Rodrigo Rojo {{year}}</p>
+            </div>
+          </div>
+        </div>
+      </footer>
 
 </body>
 

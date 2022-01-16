@@ -4,8 +4,10 @@ from flask_sqlalchemy import SQLAlchemy
 from dotenv import dotenv_values
 import account
 from authlib.integrations.flask_client import OAuth
+import datetime
 
 
+year = datetime.datetime.now().year
 env = dotenv_values(".env")
 app = Flask(__name__)
 app.secret_key = env.get('FLASK_SECRET_KEY')
@@ -51,7 +53,7 @@ def load_user(user_id):
 @app.route("/home")
 @login_required
 def home():
-    return render_template("home.html")
+    return render_template("home.html", year=year)
 
 
 @app.route("/admin")
@@ -59,7 +61,7 @@ def home():
 def admin():
     if current_user.role == "Admin":
         users = account.get_users()
-        return render_template("admin.html", users=users)
+        return render_template("admin.html", users=users, year=year)
 
 
 @app.route("/dashboard", methods=["POST", "GET"])
@@ -67,7 +69,7 @@ def admin():
 def dashboard():
     if current_user.role == "Admin" or current_user.role == "Project Manager":
         projects = account.get_projects()
-        return render_template("dashboard.html", projects=projects)
+        return render_template("dashboard.html", projects=projects, year=year)
 
 
 @app.route("/", methods=["POST", "GET"])
@@ -79,11 +81,11 @@ def login():
         user = User.query.filter_by(email=request.form["email"]).first()
         if account.check_password(request.form):
             login_user(user)
-            return redirect("/home")
+            return redirect(url_for("home"))
         else:
             flash("The password you have entered is incorrect.")
             return redirect(url_for("login"))
-    return render_template("login.html")
+    return render_template("login.html", year=year)
 
 
 @app.route('/google_login')
@@ -108,7 +110,7 @@ def authorize():
     else:
         user = User.query.filter_by(email=user_info["email"]).first()
         login_user(user)
-    return redirect('/dashboard')
+    return redirect('dashboard')
 
 
 @app.route("/register", methods=["POST", "GET"])
@@ -120,7 +122,7 @@ def register():
         else:
             account.register_account(request.form)
             return redirect(url_for("login"))
-    return render_template("register.html")
+    return render_template("register.html", year=year)
 
 
 @app.route("/add_project_dev/<project_id>", methods=["POST"])
@@ -133,17 +135,18 @@ def add_project_dev(project_id):
             last_name = full_name[1]
             user_id = account.get_account_by_fullname(first_name, last_name)[0]
             account.add_project_dev(user_id, project_id)
-            return redirect(url_for("project", id=project_id))
+            return redirect(url_for("project", id=project_id, year=year))
 
 
 @app.route("/project/<id>")
 @login_required
 def project(id):
+    account.del_duplicate_devs()
     devs = account.get_project_devs(id)
     project = account.get_project_by_id(id)
     tickets = account.get_tickets_by_project_id(id)
     all_users = account.get_users()
-    return render_template("project.html", project=project, all_users=all_users, devs=devs, tickets=tickets)
+    return render_template("project.html", project=project, all_users=all_users, devs=devs, tickets=tickets, year=year)
 
 
 @app.route("/add_project", methods=["POST"])
@@ -161,8 +164,12 @@ def add_project():
 def edit_project():
     if current_user.role == "Admin" or current_user.role == "Project Manager":
         if request.method == "POST":
-            account.update_project(request.form)
-            return redirect(url_for("project", id=request.form["id"]))
+            if int(request.form["id"]) == 1:
+                flash("Sorry but you can not edit anything from this project.")
+                return redirect(url_for("project", id=request.form["id"]))
+            else:
+                account.update_project(request.form)
+                return redirect(url_for("project", id=request.form["id"]))
 
 
 @app.route("/edit_ticket", methods=["POST"])
@@ -170,16 +177,24 @@ def edit_project():
 def edit_ticket():
     if current_user.role == "Admin" or current_user.role == "Project Manager":
         if request.method == "POST":
-            account.update_ticket(request.form)
-            return redirect(url_for("ticket", id=request.form["project_id"]))
+            if int(request.form["project_id"]) == 1:
+                flash("Sorry but you can not edit anything from this project.")
+                return redirect(url_for("project", id=request.form["project_id"]))
+            else:
+                account.update_ticket(request.form)
+                return redirect(url_for("ticket", id=request.form["ticket_id"]))
 
 
 @app.route("/del_project/<id>")
 @login_required
 def del_project(id):
     if current_user.role == "Admin" or current_user.role == "Project Manager":
-        account.delete_project(id)
-        return redirect(url_for("dashboard"))
+        if int(id) == 1:
+            flash("Sorry but you can not delete this project.")
+            return redirect(url_for("project", id=id))
+        else:
+            account.delete_project(id)
+            return redirect(url_for("dashboard"))
 
 
 @app.route("/ticket/<id>")
@@ -188,7 +203,7 @@ def ticket(id):
     current_ticket = account.get_ticket_by_id(id)
     devs = account.get_project_devs(current_ticket[10])
     comments = account.get_comments(id)
-    return render_template("ticket.html", ticket=current_ticket, comments=comments, devs=devs)
+    return render_template("ticket.html", ticket=current_ticket, comments=comments, devs=devs, year=year)
 
 
 @app.route("/add_ticket", methods=["POST"])
@@ -196,6 +211,7 @@ def ticket(id):
 def add_ticket():
     if current_user.role == "Admin" or current_user.role == "Project Manager":
         if request.method == "POST":
+
             account.add_ticket(request.form, current_user)
             return redirect(url_for("project", id=request.form["project_id"]))
 
@@ -208,50 +224,65 @@ def add_comment():
         return redirect(url_for("ticket", id=request.form["ticket_id"]))
 
 
-@app.route("/del_comment/<post_id>/<id>")
+@app.route("/del_comment/<post_id>/<id>/<project_id>")
 @login_required
-def del_comment(post_id, id):
+def del_comment(post_id, id, project_id):
     if current_user.role == "Admin" or current_user.role == "Project Manager":
-        account.delete_comment(post_id, id)
-        return redirect(url_for("ticket", id=post_id))
+        if int(project_id) == 1:
+            flash("Sorry but you can not delete any comments from this project.")
+            return redirect(url_for("project", id=project_id))
+        else:
+            account.delete_comment(post_id, id)
+            return redirect(url_for("ticket", id=post_id))
 
 
 @app.route("/del_ticket/<project_id>/<id>")
 @login_required
 def del_ticket(project_id, id):
     if current_user.role == "Admin" or current_user.role == "Project Manager":
-        account.del_ticket_by_id(id)
-        return redirect(url_for("project", id=project_id))
+        if int(project_id) == 1:
+            flash("Sorry but you can not delete this Ticket.")
+            return redirect(url_for("project", id=project_id))
+        else:
+            account.del_ticket_by_id(id)
+            return redirect(url_for("project", id=project_id))
 
 
 @app.route("/del_dev_project/<project_id>/<id>")
 @login_required
 def del_dev_project(project_id, id):
     if current_user.role == "Admin" or current_user.role == "Project Manager":
-        account.del_dev_from_project(id)
-        return redirect(url_for("project", id=project_id))
+        if int(project_id) == 1:
+            flash("Sorry but you can not delete devs from this project.")
+            return redirect(url_for("project", id=project_id))
+        else:
+            account.del_dev_from_project(id)
+            return redirect(url_for("project", id=project_id))
 
 
 @app.route("/user_projects")
 @login_required
 def user_projects():
     projects = account.get_user_projects(current_user.id)
-    return render_template("my_projects.html", projects=projects)
+    return render_template("my_projects.html", projects=projects, year=year)
 
 
 @ app.route('/update_user', methods=["POST"])
 @ login_required
 def update_user():
     if current_user.role == "Admin" or current_user.role == "Project Manager":
-        account.update_user(request.form)
-        return redirect("/admin")
+        if current_user.id == 2:
+            flash("Sorry but you can not edit users.")
+        else:
+            account.update_user(request.form)
+        return redirect(url_for("admin"))
 
 
 @ app.route('/logout')
 @ login_required
 def logout():
     logout_user()
-    return redirect("/")
+    return redirect(url_for("login"))
 
 
 if __name__ == '__main__':
