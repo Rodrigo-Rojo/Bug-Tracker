@@ -115,6 +115,16 @@ def demo(id):
         if account.login_demo_admin():
             login_user(user)
             return redirect(url_for("home"))
+    elif int(id) == 3:
+        user = User.query.filter_by(email="admin@email.com").first()
+        if account.login_demo_project_manager():
+            login_user(user)
+            return redirect(url_for("home"))
+    else:
+        user = User.query.filter_by(email="admin@email.comm").first()
+        if account.login_demo_developer():
+            login_user(user)
+            return redirect(url_for("home"))
 
 
 @app.route('/google_login')

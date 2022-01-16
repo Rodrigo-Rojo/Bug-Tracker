@@ -31,8 +31,10 @@
             <input id="password" type="password" name="pass" placeholder="Password" required="required" />
             <button type="submit" class="btn btn-primary btn-block btn-large">Log in.</button>
             <a class="btn btn-primary btn-block btn-large" href="{{url_for('register')}}">Register</a>
-            <!-- <button id="demoAdmin" class="btn btn-primary btn-block btn-large">Login as Demo Admin</button> -->
             <a class="btn btn-primary btn-block btn-large" href="{{url_for('demo', id=2)}}">Login as Demo Admin</a>
+            <a class="btn btn-primary btn-block btn-large" href="{{url_for('demo', id=3)}}">Login as Demo Project Manager</a>
+            <a class="btn btn-primary btn-block btn-large" href="{{url_for('demo', id=4)}}">Login as Demo Developer</a>
+
 
             <a class="btn btn-primary btn-block btn-large" href="{{url_for('google_login')}}" role="button"
                 style="text-transform:none">
@@ -78,17 +80,6 @@
             </div>
         </div>
     </footer>
-<script>
-    btn = document.getElementById("demoAdmin")
-    email = document.getElementById("email")
-    pass = document.getElementById("password")
-
-    btn.onclick(e =>{
-        document.getElementById("email").innerHTML = "test@test.com"
-        document.getElementById("password").innerHTML = "1234"
-    })
-</script>
-
 
 </body>
 

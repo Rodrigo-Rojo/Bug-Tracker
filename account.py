@@ -32,6 +32,30 @@ def login_demo_admin():
     return check_password_hash(password, "1234")
 
 
+def login_demo_project_manager():
+    conn = sqlite3.connect(database="bug_tracker.db")
+    cur = conn.cursor()
+    sql = f''' SELECT email, password 
+              FROM user 
+              WHERE email = 'admin@email.com'; '''
+    cur.execute(sql)
+    data = cur.fetchone()
+    password = data[1]
+    return check_password_hash(password, "asdf123")
+
+
+def login_demo_developer():
+    conn = sqlite3.connect(database="bug_tracker.db")
+    cur = conn.cursor()
+    sql = f''' SELECT email, password 
+              FROM user 
+              WHERE email = 'admin@email.comm'; '''
+    cur.execute(sql)
+    data = cur.fetchone()
+    password = data[1]
+    return check_password_hash(password, "123456")
+
+
 def check_password(user):
     conn = sqlite3.connect(database="bug_tracker.db")
     cur = conn.cursor()
