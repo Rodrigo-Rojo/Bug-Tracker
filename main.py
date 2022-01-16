@@ -15,7 +15,7 @@ year = datetime.datetime.now().year
 env = dotenv_values(".env")
 app = Flask(__name__)
 app.secret_key = env.get('FLASK_SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bug_tracker.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 login_manager = LoginManager()
 login_manager.init_app(app)
 db = SQLAlchemy(app)
