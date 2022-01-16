@@ -1,25 +1,23 @@
 import sqlite3
 from dotenv import dotenv_values
-from werkzeug.security import generate_password_hash, check_password_hash
-from main import User
-from flask_login import login_user
+from werkzeug.security import check_password_hash
 import datetime
 
 now = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 env = dotenv_values(".env")
 
 
-def register_account(form):
-    conn = sqlite3.connect(database="bug_tracker.db")
-    cur = conn.cursor()
-    sql = ''' INSERT INTO user (first_name, last_name, password, email)
-             VALUES(?,?,?,?); '''
-    cur.execute(sql, (form['fname'], form['lname'],
-                      generate_password_hash(form["pass"], method="pbkdf2:sha256", salt_length=8), form['email']))
-    conn.commit()
-    user = User.query.filter_by(email=form["email"]).first()
-    login_user(user)
-    conn.close()
+# def register_account(form):
+#     conn = sqlite3.connect(database="bug_tracker.db")
+#     cur = conn.cursor()
+#     sql = ''' INSERT INTO user (first_name, last_name, password, email)
+#              VALUES(?,?,?,?); '''
+#     cur.execute(sql, (form['fname'], form['lname'],
+#                       generate_password_hash(form["pass"], method="pbkdf2:sha256", salt_length=8), form['email']))
+#     conn.commit()
+#     user = asd.query.filter_by(email=form["email"]).first()
+#     login_user(user)
+#     conn.close()
 
 
 def check_password(user):
@@ -42,7 +40,7 @@ def check_email_exist(email):
               WHERE email = '{email}'; '''
     cur.execute(sql)
     data = cur.fetchone()
-    if data == None:
+    if data is None:
         return False
     return True
 
