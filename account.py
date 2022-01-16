@@ -20,6 +20,18 @@ env = dotenv_values(".env")
 #     conn.close()
 
 
+def login_demo_admin():
+    conn = sqlite3.connect(database="bug_tracker.db")
+    cur = conn.cursor()
+    sql = f''' SELECT email, password 
+              FROM user 
+              WHERE email = 'test@test.com'; '''
+    cur.execute(sql)
+    data = cur.fetchone()
+    password = data[1]
+    return check_password_hash(password, "1234")
+
+
 def check_password(user):
     conn = sqlite3.connect(database="bug_tracker.db")
     cur = conn.cursor()
