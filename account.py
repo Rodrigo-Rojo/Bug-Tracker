@@ -1,7 +1,7 @@
 import sqlite3
 from dotenv import dotenv_values
 from werkzeug.security import generate_password_hash, check_password_hash
-from main import *
+from main import User
 from flask_login import login_user
 import datetime
 
@@ -17,7 +17,7 @@ def register_account(form):
     cur.execute(sql, (form['fname'], form['lname'],
                       generate_password_hash(form["pass"], method="pbkdf2:sha256", salt_length=8), form['email']))
     conn.commit()
-    user = main.User.query.filter_by(email=form["email"]).first()
+    user = User.query.filter_by(email=form["email"]).first()
     login_user(user)
     conn.close()
 
