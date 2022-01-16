@@ -5,7 +5,11 @@ from dotenv import dotenv_values
 import account
 from authlib.integrations.flask_client import OAuth
 import datetime
+import os
 
+uri = os.getenv("DATABASE_URL")  # or other relevant config var
+if uri and uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
 
 year = datetime.datetime.now().year
 env = dotenv_values(".env")
