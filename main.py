@@ -141,7 +141,7 @@ def register():
             return redirect(url_for("login"))
         else:
             register_account(request.form)
-            return redirect(url_for("login"))
+            return redirect(url_for("home"))
     return render_template("register.html", year=year)
 
 
