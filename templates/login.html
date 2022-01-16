@@ -27,10 +27,13 @@
             </div>
             {% endwith %}
             {% endif %}
-            <input type="text" name="email" placeholder="Email" required="required" />
-            <input type="password" name="pass" placeholder="Password" required="required" />
+            <input id="email" type="text" name="email" placeholder="Email" required="required" />
+            <input id="password" type="password" name="pass" placeholder="Password" required="required" />
             <button type="submit" class="btn btn-primary btn-block btn-large">Log in.</button>
             <a class="btn btn-primary btn-block btn-large" href="{{url_for('register')}}">Register</a>
+            <!-- <button id="demoAdmin" class="btn btn-primary btn-block btn-large">Login as Demo Admin</button> -->
+            <a class="btn btn-primary btn-block btn-large" href="{{url_for('demo', id=2)}}">Login as Demo Admin</a>
+
             <a class="btn btn-primary btn-block btn-large" href="{{url_for('google_login')}}" role="button"
                 style="text-transform:none">
                 <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in"
@@ -75,6 +78,17 @@
             </div>
         </div>
     </footer>
+<script>
+    btn = document.getElementById("demoAdmin")
+    email = document.getElementById("email")
+    pass = document.getElementById("password")
+
+    btn.onclick(e =>{
+        document.getElementById("email").innerHTML = "test@test.com"
+        document.getElementById("password").innerHTML = "1234"
+    })
+</script>
+
 
 </body>
 
