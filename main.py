@@ -7,23 +7,24 @@ from authlib.integrations.flask_client import OAuth
 import datetime
 import os
 
-uri = os.getenv("DATABASE_URL")  # or other relevant config var
+uri = os.environ.get("DATABASE_URL")  # or other relevant config var
 if uri and uri.startswith("postgres://"):
     uri = uri.replace("postgres://", "postgresql://", 1)
 
 year = datetime.datetime.now().year
 env = dotenv_values(".env")
 app = Flask(__name__)
-app.secret_key = env.get('FLASK_SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = uri
+app.secret_key = env.get(
+    'FLASK_SECRET_KEY') or os.environ.get('FLASK_SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bug_tracker.db' or uri
 login_manager = LoginManager()
 login_manager.init_app(app)
 db = SQLAlchemy(app)
 oauth = OAuth(app)
 oauth.register(
     name='google',
-    client_id=env.get('CLIENT_ID'),
-    client_secret=env.get('CLIENT_SECRET'),
+    client_id=env.get('CLIENT_ID') or os.environ.get('CLIENT_ID'),
+    client_secret=env.get('CLIENT_SECRET') or os.environ.get('CLIENT_SECRET'),
     access_token_url='https://accounts.google.com/o/oauth2/token',
     acess_token_params=None,
     authorize_url='https://accounts.google.com/o/oauth2/auth',
