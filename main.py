@@ -3,7 +3,7 @@ from flask import Flask, render_template, request, url_for, redirect, flash
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import dotenv_values
-from werkzeug.security import generate_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 import account
 from authlib.integrations.flask_client import OAuth
 import datetime
@@ -106,6 +106,15 @@ def login():
             flash("The password you have entered is incorrect.")
             return redirect(url_for("login"))
     return render_template("login.html", year=year)
+
+
+@app.route("/demo/<id>")
+def demo(id):
+    if int(id) == 2:
+        user = User.query.filter_by(email="test@test.com").first()
+        if account.login_demo_admin():
+            login_user(user)
+            return redirect(url_for("home"))
 
 
 @app.route('/google_login')
@@ -231,9 +240,12 @@ def ticket(id):
 def add_ticket():
     if current_user.role == "Admin" or current_user.role == "Project Manager":
         if request.method == "POST":
-
-            account.add_ticket(request.form, current_user)
-            return redirect(url_for("project", id=request.form["project_id"]))
+            if int(request.form["project_id"]) == 1:
+                flash("Sorry but you can not add new tickets to this project.")
+                return redirect(url_for("project", id=request.form["project_id"]))
+            else:
+                account.add_ticket(request.form, current_user)
+                return redirect(url_for("project", id=request.form["project_id"]))
 
 
 @app.route("/add_comment", methods=["POST"])
