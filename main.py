@@ -1,7 +1,9 @@
+import sqlite3
 from flask import Flask, render_template, request, url_for, redirect, flash
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from flask_sqlalchemy import SQLAlchemy
 from dotenv import dotenv_values
+from werkzeug.security import generate_password_hash
 import account
 from authlib.integrations.flask_client import OAuth
 import datetime
@@ -34,6 +36,19 @@ oauth.register(
         'scope': 'openid email profile'
     }
 )
+
+
+def register_account(form):
+    conn = sqlite3.connect(database="bug_tracker.db")
+    cur = conn.cursor()
+    sql = ''' INSERT INTO user (first_name, last_name, password, email)
+             VALUES(?,?,?,?); '''
+    cur.execute(sql, (form['fname'], form['lname'],
+                      generate_password_hash(form["pass"], method="pbkdf2:sha256", salt_length=8), form['email']))
+    conn.commit()
+    user = User.query.filter_by(email=form["email"]).first()
+    login_user(user)
+    conn.close()
 
 
 @app.route("/add_member", methods=["POST"])
@@ -125,7 +140,7 @@ def register():
             flash("You've already signed up with that email, log in instead!")
             return redirect(url_for("login"))
         else:
-            account.register_account(request.form)
+            register_account(request.form)
             return redirect(url_for("login"))
     return render_template("register.html", year=year)
 
