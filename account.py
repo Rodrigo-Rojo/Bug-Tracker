@@ -1,17 +1,20 @@
-import sqlite3
 from dotenv import dotenv_values
 from werkzeug.security import check_password_hash
 import datetime
+import psycopg2
+import os
 
 now = datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 env = dotenv_values(".env")
 
-
+USER = os.environ.get("USER_HEROKU_DATABASE")
+DATABASE = os.environ.get("DATABASE_HEROKU")
+PASSWORD = os.environ.get("PASSWORD_HEROKU_DATABASE")
 # def register_account(form):
-#     conn = sqlite3.connect(database="bug_tracker.db")
+#     conn = psycopg2.connect(f"dbname={DATABASE} user={USER} password={PASSWORD}")
 #     cur = conn.cursor()
 #     sql = ''' INSERT INTO user (first_name, last_name, password, email)
-#              VALUES(?,?,?,?); '''
+#              VALUES(%s,%s,%s,%s); '''
 #     cur.execute(sql, (form['fname'], form['lname'],
 #                       generate_password_hash(form["pass"], method="pbkdf2:sha256", salt_length=8), form['email']))
 #     conn.commit()
@@ -21,7 +24,8 @@ env = dotenv_values(".env")
 
 
 def login_demo_admin():
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT email, password 
               FROM user 
@@ -33,7 +37,8 @@ def login_demo_admin():
 
 
 def login_demo_project_manager():
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT email, password 
               FROM user 
@@ -45,7 +50,8 @@ def login_demo_project_manager():
 
 
 def login_demo_developer():
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT email, password 
               FROM user 
@@ -57,7 +63,8 @@ def login_demo_developer():
 
 
 def check_password(user):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT email, password 
               FROM user 
@@ -69,7 +76,8 @@ def check_password(user):
 
 
 def check_email_exist(email):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT email 
               FROM user 
@@ -82,10 +90,11 @@ def check_email_exist(email):
 
 
 def register_google_account(user):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = ''' INSERT INTO user (first_name, last_name, password, email) 
-              VALUES(?,?,?,?); '''
+              VALUES(%s,%s,%s,%s); '''
     cur.execute(sql, (user['given_name'],
                 user['family_name'], "None", user['email']))
     conn.commit()
@@ -93,7 +102,8 @@ def register_google_account(user):
 
 
 def check_account(email):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT * FROM user 
                WHERE email = '{email}'; '''
@@ -106,7 +116,8 @@ def check_account(email):
 
 
 def get_account(id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT * FROM user 
                WHERE user_id = '{id}'; '''
@@ -117,7 +128,8 @@ def get_account(id):
 
 
 def get_account_by_fullname(first_name, last_name):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT * FROM user 
                WHERE first_name = '{first_name}' AND last_name = '{last_name}'; '''
@@ -128,7 +140,8 @@ def get_account_by_fullname(first_name, last_name):
 
 
 def get_users():
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = ''' SELECT id, first_name, last_name, email, role 
                FROM user; '''
@@ -139,10 +152,11 @@ def get_users():
 
 
 def update_user(form):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' UPDATE user 
-              SET first_name = ?, last_name = ?, email = ?, role = ?
+              SET first_name = %s, last_name = %s, email = %s, role = %s
               WHERE id = '{form["id"]}'; '''
     cur.execute(sql, (form["first_name"],
                 form["last_name"], form["email"], form["role"]))
@@ -151,7 +165,8 @@ def update_user(form):
 
 
 def get_projects():
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = ''' SELECT * from project; '''
     cur.execute(sql)
@@ -161,7 +176,8 @@ def get_projects():
 
 
 def get_project_by_id(id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT * from project 
                WHERE id = {id}; '''
@@ -172,7 +188,8 @@ def get_project_by_id(id):
 
 
 def get_tickets_by_project_id(id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT * FROM ticket 
                WHERE project_id = '{id}'; '''
@@ -183,7 +200,8 @@ def get_tickets_by_project_id(id):
 
 
 def get_ticket_by_id(id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT * 
                FROM ticket 
@@ -195,7 +213,8 @@ def get_ticket_by_id(id):
 
 
 def get_project_devs(project_id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT DISTINCT user.id, user.first_name, user.last_name, user.role, user.email 
                FROM project_dev 
@@ -209,7 +228,8 @@ def get_project_devs(project_id):
 
 
 def get_user_projects(id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT DISTINCT *
                FROM project_dev 
@@ -223,7 +243,8 @@ def get_user_projects(id):
 
 
 def get_comments(id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT * 
                FROM comment 
@@ -235,7 +256,8 @@ def get_comments(id):
 
 
 def delete_project(id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' DELETE FROM project 
                WHERE id = {id}; '''
@@ -245,7 +267,8 @@ def delete_project(id):
 
 
 def del_dev_from_project(id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' DELETE FROM project_dev 
                WHERE user_id = {id}; '''
@@ -255,7 +278,8 @@ def del_dev_from_project(id):
 
 
 def del_duplicate_devs():
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' SELECT id, user_id, project_id, count(*)
                FROM project_dev
@@ -274,10 +298,11 @@ def del_duplicate_devs():
 
 
 def add_project(form, user):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = ''' INSERT INTO project(name, description,author)
-              VALUES(?,?,?); '''
+              VALUES(%s,%s,%s); '''
     cur.execute(sql, (form['project-name'], form['project-description'],
                       f"{user.first_name} {user.last_name}"))
     conn.commit()
@@ -285,21 +310,23 @@ def add_project(form, user):
 
 
 def add_project_dev(user_id, project_id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = ''' INSERT INTO project_dev(user_id, project_id)
-              VALUES(?,?); '''
+              VALUES(%s,%s); '''
     cur.execute(sql, (user_id, project_id))
     conn.commit()
     conn.close()
 
 
 def add_ticket(form, user):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     developer = form['developer'].split()
     sql = ''' INSERT INTO ticket(title, description, developer, created, author, ticket_priority, ticket_status, ticket_type, project_id, user_id)
-              VALUES(?,?,?,?,?,?,?,?,?,?); '''
+              VALUES(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s); '''
     cur.execute(sql, (form["title"], form["description"], f"{developer[1]} {developer[2]}", datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"),
                       f"{user.first_name} {user.last_name}", form["priority"],
                       form["status"], form["type"], form["project_id"], developer[0]))
@@ -308,12 +335,13 @@ def add_ticket(form, user):
 
 
 def update_ticket(form):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     developer = form['developer'].split()
     sql = f'''UPDATE ticket 
-              SET title = ? , description = ? , developer = ? , ticket_priority = ? , ticket_status = ? ,
-              ticket_type = ? , updated = ? , user_id = ? WHERE id = '{form['ticket_id']}'; '''
+              SET title = %s , description = %s , developer = %s , ticket_priority = %s , ticket_status = %s ,
+              ticket_type = %s , updated = %s , user_id = %s WHERE id = '{form['ticket_id']}'; '''
     cur.execute(sql, (form['title'], form['description'], f"{developer[1]} {developer[2]}", form['priority'],
                       form['status'], form['type'], datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), developer[0]))
     conn.commit()
@@ -321,10 +349,11 @@ def update_ticket(form):
 
 
 def update_project(form):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' UPDATE project 
-              SET name = ?, description = ?
+              SET name = %s, description = %s
               WHERE id = '{form["id"]}'; '''
     cur.execute(sql, (form["name"], form["description"]))
     conn.commit()
@@ -332,7 +361,8 @@ def update_project(form):
 
 
 def delete_comment(ticket_id, id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' DELETE 
                FROM comment 
@@ -343,7 +373,8 @@ def delete_comment(ticket_id, id):
 
 
 def del_ticket_by_id(id):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = f''' DELETE 
                FROM ticket 
@@ -354,10 +385,11 @@ def del_ticket_by_id(id):
 
 
 def add_comment(form, user):
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = ''' INSERT INTO comment(author, message, created, ticket_id, user_id)
-              VALUES(?,?,?,?,?); '''
+              VALUES(%s,%s,%s,%s,%s); '''
     cur.execute(sql, (f"{user.first_name} {user.last_name}",
                 form["message"], datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S"), form["ticket_id"], user.id))
     conn.commit()
@@ -365,7 +397,8 @@ def add_comment(form, user):
 
 
 def create_table_user():
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = ''' CREATE TABLE IF NOT EXISTS user(
                id integer PRIMARY KEY,
@@ -381,7 +414,8 @@ def create_table_user():
 
 
 def create_table_projects():
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = ''' CREATE TABLE IF NOT EXISTS project(
                 id integer PRIMARY KEY,
@@ -395,7 +429,8 @@ def create_table_projects():
 
 
 def create_table_project_dev():
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = ''' CREATE TABLE IF NOT EXISTS project_dev(
                 id integer PRIMARY KEY,
@@ -411,7 +446,8 @@ def create_table_project_dev():
 
 
 def create_table_ticket():
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = ''' CREATE TABLE IF NOT EXISTS ticket(
                 id integer PRIMARY KEY,
@@ -436,7 +472,8 @@ def create_table_ticket():
 
 
 def create_table_ticket_comment():
-    conn = sqlite3.connect(database="bug_tracker.db")
+    conn = psycopg2.connect(
+        f"dbname={DATABASE} user={USER} password={PASSWORD}")
     cur = conn.cursor()
     sql = ''' CREATE TABLE IF NOT EXISTS comment(
                 id integer PRIMARY KEY,
