@@ -1,0 +1,39 @@
+{% include "header.html" %}
+
+<div class="admin-container grid scroll">
+    {% for user in users %}
+<div>
+    <form method="post" action="{{url_for('update_user')}}">
+        <p>{{user[0]}}</p>
+        <div>
+            <label for="first_name">First Name:</label>
+            <input value="{{user[1]}}" type="text" name="first_name">
+        </div>
+        <div>
+            <label for="last_name">Last Name:</label>
+            <input value="{{user[2]}}" type="text" name="last_name">
+        </div>
+        <div>
+            <label for="email">Email:</label>
+            <input value="{{user[3]}}" type="text" name="email">
+        </div>
+        <div>
+            <label for="role">Role:</label>
+            <select name="role">
+                <option value="{{user[4]}}">Current: {{user[4]}}</option>
+                <option value="Admin">Admin</option>
+                <option value="Project Manager">Project Manager</option>
+                <option value="Developer">Developer</option>
+                <option value="Demo">Demo</option>
+                <option value="Visitor">Visitor</option>
+            </select> 
+        </div>
+        <input style="display: none;" type="text" value="{{user[0]}}" name="id">
+        <input class="edit-user-input" type="submit" value="Edit User">
+    </form>
+</div>
+    {% endfor %}
+</div>
+
+
+{% include "footer.html" %}

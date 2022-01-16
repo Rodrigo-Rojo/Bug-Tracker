@@ -1,0 +1,222 @@
+{% include "header.html" %}
+
+<div class="main-container grid">
+
+        <!-- Project Section -->
+
+    <div class="project-container grid">
+        <div class="project-description grid">
+            <h4>Project Name</h4>
+            <h4 class="second-item">Project Description</h4>
+            {% if current_user.role == "Project Manager" or current_user.role == "Admin" %}
+            <button data-toggle="modal" data-target="#edit-project"
+                class="add-project-btn editProjectBtn last-item">Edit Project</button>
+            {% endif %}
+        </div>
+        <div class="data grid">
+            <p>{{project[1]}}</p>
+            <p class="second-item">{{project[2]}}</p>
+            <input class="last-item" type="text" id="mySearch" onkeyup="myTickets()" placeholder="Search Ticket..."
+                    title="Type in a category">
+        </div>
+
+    </div>
+
+        <!-- Developers Section -->
+
+    <div id="devDiv" class="dev-container grid scroll">
+        <div class="dev-description grid">
+            <p>Dev Name</p>
+            <p>Role</p>
+            <p>Email</p>
+            {% if current_user.role == "Project Manager" or current_user.role == "Admin" %}
+            <button class="add-dev-btn" data-toggle="modal" data-target="#dev_id">Add Dev</button>
+            {% endif %}
+        </div>
+        {% for dev in devs %}
+        <span class="dev-data grid">
+            <p>{{dev[1]}} {{dev[2]}}</p>
+            <p class="overflow">{{dev[4]}}</p>
+            <p>{{dev[3]}}</p>
+            {% if current_user.role == "Admin" %}
+            <a class="del-dev" href="{{url_for('del_dev_project', id=dev[0], project_id=project[0])}}">❌</a>
+            {% endif %}
+
+        </span>
+        {% endfor %}
+    </div>
+
+        <!-- Tickets Section -->
+
+    <div id="myTickets" class="ticket-container grid scroll">
+        <div class="ticket-description grid">
+            <p>Title</p>
+            <p>Developer</p>
+            <p>Status</p>
+            <p>Created</p>
+            {% if current_user.role == "Project Manager" or current_user.role == "Admin" %}
+            <button class="add-ticket-btn" data-toggle="modal" data-target="#add-ticket">New Ticket</button>
+            {% endif %}
+        </div>
+        {% for ticket in tickets %}
+        <span class="ticket-data grid">
+            <p class="overflow">{{ticket[1]}}</p>
+            <p>{{ticket[3]}}</p>
+            <p>{{ticket[7]}}</p>
+            <p>{{ticket[4]}}</p>
+            <a class="ticket-link" href="{{url_for('ticket', id=ticket[0])}}">Details</a>
+        </span>
+        {% endfor %}
+    </div>
+
+        <!-- Edit Project Modal -->
+
+    <div class="modal fade" id="edit-project" tabindex="-1" role="dialog"
+        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Edit Project</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="edit-project" class="edit-project">
+                        <form method="post" action="{{url_for('edit_project')}}">
+                            <div class="edit-project-container-form grid">
+                                <div>
+                                    <label for="project-name">Project Name:</label>
+                                    <input value="{{project[1]}}" type="text" name="name">
+                                </div>
+                                <div>
+                                    <label for="project-description">Project Description:</label>
+                                    <input value="{{project[2]}}" type="text" name="description">
+                                </div>
+                                <input style="display: none;" type="text" value="{{project[0]}}" name="id">
+                            </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input class="edit-project-submit btn-primary" type="submit" value="Edit Project">
+                    <a class="delete-ticket" href="{{url_for('del_project', id=project[0])}}">Delete Project</a>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- ADD Ticket Modal -->
+
+    <div class="modal fade" id="add-ticket" tabindex="-1" role="dialog" aria-labelledby="add-ticket" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add Ticket</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div id="" class="add-ticket">
+                        <form method="post" action="{{url_for('add_ticket')}}">
+                            <div class="add-ticket-container-form">
+                                <div>
+                                    <label for="title">Title:</label><br>
+                                    <input type="text" name="title">
+                                </div>
+                                <div>
+                                    <label for="description">Description:</label><br>
+                                    <input type="text" name="description">
+                                </div>
+                                <div>
+                                    <label for="developer">Developer:</label><br>
+                                    <select name="developer">
+                                        {% for dev in devs %}
+                                        <option value="{{dev[0]}} {{dev[1]}} {{dev[2]}}">{{dev[0]}} {{dev[1]}}
+                                            {{dev[2]}}</option>
+                                        {% endfor %}
+
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="priority">Priority:</label><br>
+                                    <select name="priority">
+                                        <option value="None">None</option>
+                                        <option value="Low">Low</option>
+                                        <option value="Medium">Medium</option>
+                                        <option value="High">High</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="status">Status:</label><br>
+                                    <select name="status">
+                                        <option value="New">New</option>
+                                        <option value="Open">Open</option>
+                                        <option value="In Progress">In Progress</option>
+                                        <option value="Additional Info Required">Additional Info Required</option>
+
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="type">Type:</label><br>
+                                    <select name="type">
+                                        <option value="Bugs/Errors">Bugs/Errors</option>
+                                        <option value="Feature Requests">Feature Requests</option>
+                                        <option value="Other Comments">Other Comments</option>
+                                        <option value="Training/Document Request">Training/Document Request</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <select style="display: none;" name="project_id">
+                                        <option value="{{project[0]}}">{{project[0]}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input class="btn-ticket" type="submit" value="Add Ticket">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- ADD Developer Modal -->
+
+    <div class="modal fade" id="dev_id" tabindex="-1" role="dialog" aria-labelledby="dev_id" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">Add Developer</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="add-dev">
+                        <form method="post" action="{{url_for('add_project_dev', project_id=project[0])}}">
+                            <div class="add-dev-container grid">
+                                <select name="dev" class="select">
+                                    {% for dev in all_users %}
+                                    <option value="{{dev[1]}} {{dev[2]}}">{{dev[1]}} {{dev[2]}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input class="add-dev-btn" type="submit" value="Add Dev">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    {% include "footer.html" %}

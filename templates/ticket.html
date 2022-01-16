@@ -1,0 +1,161 @@
+{% include "header.html" %}
+
+
+<div class="main-ticket-container shadow">
+    <div class="ticket">
+        <div>
+            <label>Title</label>
+            <p>{{ticket[1]}}</p>
+        </div>
+        <div>
+            <label>Description</label>
+            <p>{{ticket[2]}}</p>
+        </div>
+        <div>
+            <label>Developer</label>
+            <p>{{ticket[3]}}</p>
+        </div>
+        <div>
+            <label>Created</label>
+            <p>{{ticket[4]}}</p>
+        </div>
+        <div>
+            <label>Author</label>
+            <p>{{ticket[5]}}</p>
+        </div>
+        <div>
+            <label>Priority</label>
+            <p>{{ticket[6]}}</p>
+        </div>
+        <div>
+            <label>Status</label>
+            <p>{{ticket[7]}}</p>
+        </div>
+        <div>
+            <label>Type</label>
+            <p>{{ticket[8]}}</p>
+        </div>
+        <div>
+            <label>Updated</label>
+            <p>{{ticket[9]}}</p>
+        </div>
+        {% if current_user.role == "Project Manager" or current_user.role == "Admin" %}
+        <div>
+            <button id="myBtn" class="edit-ticket-btn" data-toggle="modal" data-target="#exampleModalCenter">Edit
+                Ticket</button>
+        </div>
+        {% endif %}
+
+    </div>
+    <div class="comments-container scroll grid">
+        <div class="add-comment">
+            <form method="post" action="{{url_for('add_comment')}}">
+                <div class="grid">
+                    <textarea cols="60" name="message"></textarea>
+                    <input class="comment-btn" type="submit" value="Add Comment">
+                    <input style="display: none;" name="ticket_id" value="{{ticket[0]}}">
+
+                </div>
+            </form>
+        </div>
+        {% for comment in comments %}
+        <div class="comments grid">
+            <p class="user_data">{{comment[1]}}</p>
+            <p class="second-item user_data">{{comment[3]}}</p>
+            {% if current_user.role == "Admin" %}
+            <a class="last-item" href="{{url_for('del_comment', id=comment[0], post_id=ticket[0])}}">❌</a>
+            {% endif %}
+
+            <p class="text">{{comment[2]}}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="ticket-edit-container">
+
+    </div>
+
+</div>
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Edit Ticket</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="edit-ticket" class="edit-ticket">
+                    <form class="edit_ticket_form" method="post" action="{{url_for('edit_ticket')}}">
+                        <div class="edit-ticket-container grid">
+                            <div>
+                                <label for="title">Title:</label><br>
+                                <input type="text" name="title" value="{{ticket[1]}}">
+                            </div>
+                            <div>
+                                <label for="description">Description:</label><br>
+                                <input type="text" name="description" value="{{ticket[2]}}">
+                            </div>
+                            <div>
+                                <label for="developer">Developer:</label><br>
+                                <select name="developer">
+                                    <option value="{{ticket[-1]}} {{ticket[3]}}">{{ticket[3]}}</option>
+                                    {% for dev in devs %}
+                                    {% if dev[1] + " " + dev[2] != ticket[3]  %}
+                                    <option value="{{dev[0]}} {{dev[1]}} {{dev[2]}}">{{dev[1]}} {{dev[2]}}</option>
+                                    {% endif %}
+                                    {% endfor %}
+
+                                </select>
+                            </div>
+                            <div>
+                                <label for="priority">Priority:</label><br>
+                                <select name="priority">
+                                    <option value="{{ticket[6]}}">Current: {{ticket[6]}}</option>
+                                    <option value="None">None</option>
+                                    <option value="Low">Low</option>
+                                    <option value="Medium">Medium</option>
+                                    <option value="High">High</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="status">Status:</label><br>
+                                <select name="status">
+                                    <option value="{{ticket[7]}}">Current: {{ticket[7]}}</option>
+                                    <option value="New">New</option>
+                                    <option value="Open">Open</option>
+                                    <option value="In Progress">In Progress</option>
+                                    <option value="Additional Info Required">Additional Info Required</option>
+
+                                </select>
+                            </div>
+                            <div>
+                                <label for="type">Type:</label><br>
+                                <select name="type">
+                                    <option value="{{ticket[8]}}">Current: {{ticket[8]}}</option>
+                                    <option value="Bugs/Errors">Bugs/Errors</option>
+                                    <option value="Feature Requests">Feature Requests</option>
+                                    <option value="Other Comments">Other Comments</option>
+                                    <option value="Training/Document Request">Training/Document Request</option>
+                                </select>
+                            </div>
+                            <input style="display: none;" name="project_id" type="text" value="{{ticket[11]}}">
+                            <input style="display: none;" name="ticket_id" type="text" value="{{ticket[0]}}">
+
+
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input class="edit-ticket-submit" type="submit" value="Update Ticket">
+                    <a class="delete-ticket" href="{{url_for('del_ticket', project_id=ticket[11], id=ticket[0])}}">Delete
+                        Ticket</a>
+                    </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include "footer.html" %}

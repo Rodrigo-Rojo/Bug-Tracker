@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+    <link rel="stylesheet" href="static/css/login.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+</head>
+
+<body>
+
+
+    <div class="login">
+        <h1>Login</h1>
+        <form action="{{ url_for('login')}}" method="post">
+            {% if get_flashed_messages() %}
+            {% with messages = get_flashed_messages() %}
+            <div class="alert alert-danger" role="alert">
+                {{ messages[0] }}
+            </div>
+            {% endwith %}
+            {% endif %}
+            <input type="text" name="email" placeholder="Email" required="required" />
+            <input type="password" name="pass" placeholder="Password" required="required" />
+            <button type="submit" class="btn btn-primary btn-block btn-large">Log in.</button>
+            <a class="btn btn-primary btn-block btn-large" href="{{url_for('register')}}">Register</a>
+              <a class="btn btn-primary btn-block btn-large" href="{{url_for('google_login')}}" role="button" style="text-transform:none">
+                <img width="20px" style="margin-bottom:3px; margin-right:5px" alt="Google sign-in" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/512px-Google_%22G%22_Logo.svg.png" />
+                Login with Google
+              </a>
+        </form>
+    </div>
+
+
+</body>
+
+</html>

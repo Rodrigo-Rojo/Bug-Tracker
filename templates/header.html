@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bug Tracker</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+    rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+    <link rel="stylesheet" href="{{url_for('static', filename='css/home.css')}}">
+</head>
+
+<body>
+    <div class="flex">
+        <div class="nav-container dashboard flex">
+            <div class="user">
+                <p>Welcome</p>
+                <p>{{current_user.first_name}} {{current_user.last_name}}</p>
+                <p>{{current_user.role}}</p>
+
+            </div>
+            {% if current_user.role == "Admin" %}
+            <a class="nav-btn" href="{{url_for('admin')}}">Administration</a>
+            
+            {% endif %}
+            {% if current_user.role == "Project Manager" or current_user.role == "Admin" %}
+            <a class="nav-btn" href="{{url_for('dashboard')}}">All Projects</a>
+            {% endif %}
+            <a class="nav-btn" href="{{url_for('user_projects')}}">Projects</a>
+            <a class="nav-btn logout" href="{{url_for('logout')}}">Logout</a>
+        </div>

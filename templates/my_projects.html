@@ -1,0 +1,35 @@
+{% include "header.html" %}
+
+<div class="projects flex">
+    <div class="project-title flex">
+        <div>
+            <h2>MY Assign Projects</h2>
+            <h3>All projects that been assign to me.</h4>
+                <input type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search Project Name..."
+                    title="Type in a category">
+        </div>
+    </div>
+
+
+    <div id="myMenu" class="dashboard project-container grid">
+        <div class="project-description grid">
+            <h4>Project Name</h4>
+            <h4 class="second-item">Project Description</h4>
+            <h4 class="last-item">Manage</h4>
+        </div>
+
+        {% for project in projects %}
+        <span class="project-data grid ">
+            <p>{{project[4]}}</p>
+            <p class="second-item">{{project[5]}}</p>
+            <div class="project-links last-item">
+                <a class="project-details-a" href="{{url_for('project', id=project[3]) }}">Details</a>
+            </div>
+        </span>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% include "footer.html" %}

@@ -1,0 +1,71 @@
+{% include "header.html" %}
+{% if current_user.role == "Project Manager" or current_user.role == "Admin" %}
+
+<div class="projects flex">
+    <div class="project-title grid">
+            <h2>Projects</h2>
+            <button class="add-project-btn last-item" data-toggle="modal" data-target="#exampleModalCenter">Add New Project</button>
+            <h3>All projects in the database</h4>
+            <input class="last-item" type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search Project..."
+                        title="Type in a category">
+            
+    </div>
+    <div id="myMenu" class="dashboard grid">
+        <div class="project-description grid">
+            <h4>Project Name</h4>
+            <h4 class="second-item">Project Description</h4>
+            <h4 class="last-item">Manage</h4>
+        </div>
+        <div class="project-data-container scroll grid">
+            {% for project in projects %}
+            <span class="project-data grid ">
+                <p class="projectName">{{project[1]}}</p>
+                <p class="projectDescription second-item">{{project[2]}}</p>
+                <div class="project-links last-item">
+                    <a class="project-details-a" href="{{url_for('project', id=project[0]) }}">Details</a>
+                </div>
+            </span>
+            {% endfor %}
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Add New Project</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="project_id" class="add-project">
+                    <form class="add-project-form" method="post" action="{{url_for('add_project')}}">
+                        <div>
+                            <label for="project-name">Project Name:</label>
+                            <input type="text" name="project-name">
+                        </div>
+                        <div>
+                            <label for="project-description">Project Description:</label>
+                            <input type="text" name="project-description">
+                        </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <input class="btn btn-primary" type="submit" value="Add Project">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endif %}
+
+
+
+{% include "footer.html" %}
