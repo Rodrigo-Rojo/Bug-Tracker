@@ -9,7 +9,8 @@ import os
 
 uri = os.getenv("DATABASE_URL")  # or other relevant config var
 if uri and uri.startswith("postgres://"):
-    uri = uri.replace("postgres://", "postgresql://", 1)
+    uri = uri.replace("postgres://", "postgresql://",
+                      'sqlite:///bug_tracker.db', 1)
 
 year = datetime.datetime.now().year
 env = dotenv_values(".env")
