@@ -25,7 +25,7 @@ app = Flask(__name__)
 account.create_database()
 app.secret_key = env.get(
     'FLASK_SECRET_KEY') or os.environ.get('FLASK_SECRET_KEY')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///bug_tracker.db' or uri
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
 login_manager = LoginManager()
 login_manager.init_app(app)
 db = SQLAlchemy(app)
