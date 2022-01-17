@@ -26,12 +26,10 @@ body {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3E1D6D', endColorstr='#092756',GradientType=1 );
 }
 .login {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  margin: -150px 0 0 -150px;
+  margin: auto;
+  margin-top: 10%;
   width:300px;
-  height:300px;
+  height:500px;
 }
 .login h1 { color: #fff; text-shadow: 0 0 10px rgba(0,0,0,0.3); letter-spacing:1px; text-align:center; }
 
@@ -100,5 +98,4 @@ input:focus { box-shadow: inset 0 -5px 45px rgba(100,100,100,0.4), 0 1px 1px rgb
 
 footer {
 padding: 50px 0 65px;
-margin-top: 40%;
 }

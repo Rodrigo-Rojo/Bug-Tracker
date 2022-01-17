@@ -64,7 +64,7 @@
             <p class="second-item user_data">{{comment[3]}}</p>
             {% if current_user.role == "Admin" %}
             <a class="last-item"
-                href="{{url_for('del_comment', id=comment[0], post_id=ticket[0], project_id=ticket[10])}}">❌</a>
+                href="{{url_for('delete_comment', comment_id=comment[0], ticket_id=ticket[0], project_id=ticket[10])}}">❌</a>
             {% endif %}
 
             <p class="text">{{comment[2]}}</p>
@@ -152,7 +152,7 @@
             </div>
             <div class="modal-footer">
                 <input class="edit-ticket-submit" type="submit" value="Update Ticket">
-                <a class="delete-ticket" href="{{url_for('del_ticket', project_id=ticket[10], id=ticket[0])}}">Delete
+                <a class="delete-ticket" href="{{url_for('delete_ticket', project_id=ticket[10], id=ticket[0])}}">Delete
                     Ticket</a>
                 </form>
             </div>

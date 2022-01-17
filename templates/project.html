@@ -46,7 +46,7 @@
             <p class="overflow">{{dev[4]}}</p>
             <p>{{dev[3]}}</p>
             {% if current_user.role == "Admin" %}
-            <a class="del-dev" href="{{url_for('del_dev_project', id=dev[0], project_id=project[0])}}">❌</a>
+            <a class="del-dev" href="{{url_for('delete_dev_project', id=dev[0], project_id=project[0])}}">❌</a>
             {% endif %}
 
         </span>
@@ -107,7 +107,7 @@
                 </div>
                 <div class="modal-footer">
                     <input class="edit-project-submit btn-primary" type="submit" value="Edit Project">
-                    <a class="delete-ticket" href="{{url_for('del_project', id=project[0])}}">Delete Project</a>
+                    <a class="delete-ticket" href="{{url_for('delete_project', id=project[0])}}">Delete Project</a>
                     </form>
 
                 </div>
