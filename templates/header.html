@@ -21,18 +21,19 @@
     <div class="flex">
         <div class="nav-container dashboard flex">
             <div class="user">
-                <p>Welcome</p>
-                <p>{{current_user.first_name}} {{current_user.last_name}}</p>
-                <p>{{current_user.role}}</p>
+                <p class="user-data">Welcome</p>
+                <p class="user-data">{{current_user.first_name}} {{current_user.last_name}}</p>
+                <p class="user-data">{{current_user.role}}</p>
 
             </div>
             {% if current_user.role == "Admin" %}
-            <a class="nav-btn" href="{{url_for('admin')}}">Administration</a>
+            <a class="nav-btn first-link" href="{{url_for('admin')}}">Administration</a>
             
             {% endif %}
             {% if current_user.role == "Project Manager" or current_user.role == "Admin" %}
-            <a class="nav-btn" href="{{url_for('dashboard')}}">All Projects</a>
+            <a class="nav-btn" href="{{url_for('all_projects')}}">All Projects</a>
             {% endif %}
             <a class="nav-btn" href="{{url_for('user_projects')}}">Projects</a>
             <a class="nav-btn logout" href="{{url_for('logout')}}">Logout</a>
         </div>
+        <br>

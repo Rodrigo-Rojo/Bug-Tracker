@@ -62,7 +62,7 @@ label {
 
 .nav-container {
     background-color: white;
-    height: 100vh;
+    height: 80vh;
     flex-direction: column;
     box-shadow: 20px 10px 10px rgba(0, 0, 0, 0.10);
 
@@ -114,7 +114,7 @@ label {
 .projects {
     background-color: white;
     width: 1200px;
-    height: 800px;
+    height: 700px;
     margin: auto;
     padding: 64px;
     flex-direction: column;
@@ -217,7 +217,7 @@ label {
 .main-container {
     background-color: white;
     width: 1400px;
-    height: 800px;
+    height: 700px;
     margin: auto;
     padding: 64px;
     grid-template-columns: 1.5fr 2fr;
@@ -226,7 +226,7 @@ label {
 
 .dashboard {
     grid-template-rows: 35px;
-    grid-auto-rows: minmax(35px, 500px);
+    grid-auto-rows: minmax(35px, 400px);
     border-top: 1px solid #e9ecef;
     padding: 24px;
 }
@@ -511,6 +511,7 @@ select {
 }
 
 footer {
+    height: 10vh;
   padding: 50px 0 65px;
 }
 
@@ -529,4 +530,48 @@ p {
     margin: 0;
     padding-top: 5px;
     text-align: center;
+}
+
+@media (max-width:1660px) {
+    .flex {
+        display: block;
+    }
+
+    .nav-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+        width: 100%;
+        height: auto;
+        margin-bottom: 100px;
+        gap: 30px;
+    }
+
+    .nav-container p {
+        display: inline-block;
+        padding: 10px;
+        padding-left: 20px;
+    }
+
+    .nav-btn:link, .nav-btn:visited {
+        display: inline;
+        padding: 10px 20px;
+        height: 50px;
+        text-align: center;
+        margin-top: 0;
+    }
+
+    .user-data {
+        display: inline;
+    }
+
+    .nav-container p:first-child {
+        padding-top: 0;
+    }
+
+    /* project.html */
+
+    .main-container {
+        width: 1300px;
+        padding: 32px;
+    }
 }
