@@ -539,11 +539,15 @@ p {
 
     .nav-container {
         display: grid;
-        grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 3fr 1fr 1.5fr .5fr .5fr;
         width: 100%;
         height: auto;
         margin-bottom: 100px;
         gap: 30px;
+    }
+
+    .user {
+        background-color: white;
     }
 
     .nav-container p {
@@ -573,5 +577,11 @@ p {
     .main-container {
         width: 1300px;
         padding: 32px;
+    }
+}
+
+@media (max-width:1020px) {
+    .nav-container p:first-child {
+        display: None;
     }
 }
