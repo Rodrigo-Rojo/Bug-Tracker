@@ -131,6 +131,11 @@
 
     .edit-project, .add-dev, .add-ticket, .edit-ticket {
         width: 100%;
+        padding: 60px 0;
+    }
+
+    .edit-ticket-container {
+        padding: 0;
     }
 
     .edit-project-container-form {
