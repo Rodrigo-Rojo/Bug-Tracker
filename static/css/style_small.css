@@ -1,0 +1,166 @@
+.show {
+    display: block;
+}
+
+@media (max-width:768px) {
+
+    .topcorner{
+        position:absolute;
+        top:12px;
+        right: 10px;
+    }
+    
+    .tc {
+        position:absolute;
+        top: 0;
+        right: 10px;
+    }
+
+    p, select, input, textarea {
+        font-size: larger;
+    }
+
+    textarea {
+        width: 100%;
+        height: 200px;
+    }
+
+    h2, h3 {
+        padding-bottom: 5px;
+    }
+    .small-screen-label {
+        display: block;
+    }
+
+    .hide {
+        display: block;
+    }
+
+    .home-container,
+    .admin,
+    .projects,
+    .main-container, .main-ticket-container {
+        height: auto;
+        width: 100%;
+    }
+
+    /* admin */
+
+    .admin-container {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-child {
+        border-bottom: 1px solid #e9ecef;
+        padding: 7px 0;
+    }
+
+    .admin-container:first-child {
+        border-top: 1px solid #e9ecef;
+
+    }
+
+    /* All Projects */
+
+    .dashboard {
+        padding: 0;
+    }
+
+    .sm-screen-hide {
+        display: None;
+    }
+
+    .grid {
+        display: block;
+    }
+
+    .project-title {
+        grid-template-columns: 1fr;
+        justify-items: start;
+        padding-bottom: 15px;
+        position: relative;
+    }
+
+    .project-data-container:first-child {
+        padding-top: 300px;
+    }
+
+    .project-data {
+        padding: 15px 0;
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .project-links {
+        padding-top: 15px;
+    }
+
+    .project-description, .dev-description, .ticket-description {
+        display: None;
+        padding-bottom: 100px;
+    }
+
+    .flex {
+        display: block;
+    }
+
+    .last-item {
+        justify-self: start;
+    }
+
+    /* Project */
+
+    .dev-container {
+        border-right: None;
+        border-bottom: 1px solid #e9ecef;
+        padding: 15px 0 ;
+    }
+
+    .project-container, .dev-container, .ticket-container, .comments-container {
+        position: relative;
+        padding: 15px 0;
+    }
+
+    .dev-container:last-child {
+        border-bottom: None;
+    }
+
+    .dev-data, .ticket-data, .comments, .ticket {
+        padding: 7px 0;
+        position: relative;
+    }
+
+    .edit-project, .add-dev, .add-ticket, .edit-ticket {
+        width: 100%;
+    }
+
+    .edit-project-container-form {
+        padding: 0;
+        text-align: left;
+    }
+
+    .add-ticket-container-form {
+        display: block;
+    }
+
+    
+
+    /* Ticket */
+
+    .main-ticket-container, .ticket {
+        display: block;
+    }
+
+    .ticket {
+        border-bottom: 1px solid #e9ecef;
+    }
+
+    .comments-container {
+        
+    }
+
+    /* Bootstrap */
+
+    .modal-content {
+        width: 100%;
+    }
+}

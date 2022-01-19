@@ -4,7 +4,9 @@
 <div class="projects flex">
     <div class="project-title grid">
             <h2>Projects</h2>
-            <button class="add-project-btn last-item" data-toggle="modal" data-target="#exampleModalCenter">Add New Project</button>
+            <button class="add-project-btn last-item sm-screen-hide" data-toggle="modal" data-target="#exampleModalCenter">Add New Project</button>
+            <button class="add-project-btn last-item tc hide" data-toggle="modal" data-target="#exampleModalCenter">Add New Project</button>
+
             <h3>All projects in the database</h4>
             <input class="last-item" type="text" id="mySearch" onkeyup="myFunction()" placeholder="Search Project..."
                         title="Type in a category">
@@ -19,12 +21,13 @@
         <div class="project-data-container scroll grid">
             {% for project in projects %}
             <span class="project-data grid ">
-                <p class="projectName">{{project[1]}}</p>
-                <p class="projectDescription second-item">{{project[2]}}</p>
+                <p class="projectName"><label class="small-screen-label">Project Name:</label>{{project[1]}}</p>
+                <p class="projectDescription second-item"><label class="small-screen-label">Project Description:</label>{{project[2]}}</p>
                 <div class="project-links last-item">
                     <a class="project-details-a" href="{{url_for('project', id=project[0]) }}">Details</a>
                 </div>
             </span>
+            <br>
             {% endfor %}
 
         </div>

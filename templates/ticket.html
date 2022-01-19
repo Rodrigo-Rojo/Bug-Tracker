@@ -41,7 +41,7 @@
         </div>
         {% if current_user.role == "Project Manager" or current_user.role == "Admin" %}
         <div>
-            <button id="myBtn" class="edit-ticket-btn" data-toggle="modal" data-target="#exampleModalCenter">Edit
+            <button id="myBtn" class="edit-ticket-btn topcorner" data-toggle="modal" data-target="#exampleModalCenter">Edit
                 Ticket</button>
         </div>
         {% endif %}
@@ -63,7 +63,7 @@
             <p class="user_data">{{comment[1]}}</p>
             <p class="second-item user_data">{{comment[3]}}</p>
             {% if current_user.role == "Admin" %}
-            <a class="last-item"
+            <a class="last-item topcorner"
                 href="{{url_for('delete_comment', comment_id=comment[0], ticket_id=ticket[0], project_id=ticket[10])}}">❌</a>
             {% endif %}
 
@@ -97,7 +97,8 @@
                             </div>
                             <div>
                                 <label for="description">Description:</label><br>
-                                <input type="text" name="description" value="{{ticket[2]}}">
+                                <!-- <input type="text" name="description" value="{{ticket[2]}}"> -->
+                                <textarea>{{ticket[2]}}</textarea>
                             </div>
                             <div>
                                 <label for="developer">Developer:</label><br>

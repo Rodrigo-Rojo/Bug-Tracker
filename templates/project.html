@@ -21,10 +21,12 @@
             {% endif %}
         </div>
         <div class="data grid">
-            <p>{{project[1]}}</p>
-            <p class="second-item">{{project[2]}}</p>
-            <input class="last-item" type="text" id="mySearch" onkeyup="myTickets()" placeholder="Search Ticket..."
+            <p><label class="small-screen-label">Project Name:</label>{{project[1]}}</p>
+            <p class="second-item"><label class="small-screen-label">Project Description:</label>{{project[2]}}</p>
+            <input class="last-item" type="text" id="mySearch" onkeyup="myTickets()" placeholder="Search..."
                     title="Type in a category">
+                    <button data-toggle="modal" data-target="#edit-project"
+                class="hide add-project-btn editProjectBtn last-item topcorner">Edit Project</button>
         </div>
 
     </div>
@@ -40,13 +42,16 @@
             <button class="add-dev-btn" data-toggle="modal" data-target="#dev_id">Add Dev</button>
             {% endif %}
         </div>
+        <h3 class="hide">Developers Assign</h3>
+        <button class="add-dev-btn topcorner hide" data-toggle="modal" data-target="#dev_id">Add Dev</button>
+
         {% for dev in devs %}
         <span class="dev-data grid">
-            <p>{{dev[1]}} {{dev[2]}}</p>
-            <p class="overflow">{{dev[4]}}</p>
-            <p>{{dev[3]}}</p>
+            <p><label class="small-screen-label">Developer Name:</label>{{dev[1]}} {{dev[2]}}</p>
+            <p class="overflow"><label class="small-screen-label">Email:</label>{{dev[4]}}</p>
+            <p><label class="small-screen-label">Project Role:</label>{{dev[3]}}</p>
             {% if current_user.role == "Admin" %}
-            <a class="del-dev" href="{{url_for('delete_dev_project', id=dev[0], project_id=project[0])}}">❌</a>
+            <a class="del-dev topcorner" href="{{url_for('delete_dev_project', id=dev[0], project_id=project[0])}}">❌</a>
             {% endif %}
 
         </span>
@@ -65,12 +70,15 @@
             <button class="add-ticket-btn" data-toggle="modal" data-target="#add-ticket">New Ticket</button>
             {% endif %}
         </div>
+        <h3 class="hide">Tickets</h3>
+        <button class="add-ticket-btn topcorner hide" data-toggle="modal" data-target="#add-ticket">New Ticket</button>
+
         {% for ticket in tickets %}
         <span class="ticket-data grid">
-            <p class="overflow">{{ticket[1]}}</p>
-            <p>{{ticket[3]}}</p>
-            <p>{{ticket[7]}}</p>
-            <p>{{ticket[4]}}</p>
+            <p class="overflow"><label class="small-screen-label">Ticket Title:</label>{{ticket[1]}}</p>
+            <p><label class="small-screen-label">Ticket Author:</label>{{ticket[3]}}</p>
+            <p><label class="small-screen-label">Ticket Status:</label>{{ticket[7]}}</p>
+            <p><label class="small-screen-label">Ticket Created:</label>{{ticket[4]}}</p>
             <a class="ticket-link" href="{{url_for('ticket', id=ticket[0])}}">Details</a>
         </span>
         {% endfor %}
