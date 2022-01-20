@@ -219,9 +219,3 @@ span.buttonText {
 footer {
   padding: 50px 0 65px;
 }
-
-@media (max-width:768px) {
-  .login {
-    margin-top: 30%;
-  }
-}
