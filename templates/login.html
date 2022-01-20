@@ -3,6 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login</title>
     <link href="{{ url_for('static', filename='vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet"
         type="text/css">
@@ -12,13 +14,12 @@
 
 </head>
 
-<body>
+<body class="text-center">
 
 
     <div class="login">
 
-        <h1>Login</h1>
-        <h1>Bug Tracker</h1>
+        <h1>Login<br>Bug Tracker</h1>
         <form action="{{ url_for('login')}}" method="post">
             {% if get_flashed_messages() %}
             {% with messages = get_flashed_messages() %}
@@ -31,9 +32,12 @@
             <input id="password" type="password" name="pass" placeholder="Password" required="required" />
             <button type="submit" class="btn btn-primary btn-block btn-large">Log in.</button>
             <a class="btn btn-primary btn-block btn-large" href="{{url_for('register')}}">Register</a>
-            <a class="btn btn-primary btn-block btn-large" href="{{url_for('log_in_demo_user', id=2)}}">Login as Demo Admin</a>
-            <a class="btn btn-primary btn-block btn-large" href="{{url_for('log_in_demo_user', id=3)}}">Login as Demo Project Manager</a>
-            <a class="btn btn-primary btn-block btn-large" href="{{url_for('log_in_demo_user', id=4)}}">Login as Demo Developer</a>
+            <a class="btn btn-primary btn-block btn-large" href="{{url_for('log_in_demo_user', id=2)}}">Login as Demo
+                Admin</a>
+            <a class="btn btn-primary btn-block btn-large" href="{{url_for('log_in_demo_user', id=3)}}">Login as Demo
+                Project Manager</a>
+            <a class="btn btn-primary btn-block btn-large" href="{{url_for('log_in_demo_user', id=4)}}">Login as Demo
+                Developer</a>
 
 
             <a class="btn btn-primary btn-block btn-large" href="{{url_for('google_login')}}" role="button"
@@ -62,7 +66,6 @@
                                 <span class="fa-stack fa-lg">
                                     <i class="fas fa-circle fa-stack-2x"></i>
                                     <i class="fab fa-linkedin-in fa-stack-1x fa-inverse"></i>
-                                    <!-- <i class="fab fa-facebook-f fa-stack-1x fa-inverse"></i> -->
                                 </span>
                             </a>
                         </li>
@@ -75,7 +78,7 @@
                             </a>
                         </li>
                     </ul>
-                    <p class="copyright text-muted">Copyright &copy; Rodrigo Rojo {{year}}</p>
+                    <p class="copyright">Copyright &copy; Rodrigo Rojo {{year}}</p>
                 </div>
             </div>
         </div>

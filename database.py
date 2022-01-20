@@ -99,8 +99,6 @@ def create_table_ticket_comment():
     conn.close()
 
 
-# LOG IN DEMOS
-
 def login_demo_admin():
     conn = sqlite3.connect(database="bug_tracker.db")
     cur = conn.cursor()

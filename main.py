@@ -150,7 +150,12 @@ def project(id):
     project = database.get_project_by_id(id)
     tickets = database.get_tickets_by_project_id(id)
     all_users = database.get_all_users()
-    return render_template("project.html", project=project, all_users=all_users, devs=devs, tickets=tickets, year=year)
+    return render_template("project.html",
+                           project=project,
+                           all_users=all_users,
+                           devs=devs,
+                           tickets=tickets,
+                           year=year)
 
 
 @app.route("/add_project", methods=["POST"])
@@ -194,7 +199,11 @@ def ticket(id):
     current_ticket = database.get_ticket_by_id(id)
     devs = database.get_project_devs(current_ticket[10])
     comments = database.get_comments_by_ticket_id(id)
-    return render_template("ticket.html", ticket=current_ticket, comments=comments, devs=devs, year=year)
+    return render_template("ticket.html",
+                           ticket=current_ticket,
+                           comments=comments,
+                           devs=devs,
+                           year=year)
 
 
 @app.route("/add_ticket", methods=["POST"])

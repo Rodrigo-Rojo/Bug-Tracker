@@ -4,6 +4,9 @@
     box-sizing: border-box;
 }
 
+a {
+    text-decoration: None;
+}
 
 h2, h3 {
     margin-bottom: 0;
@@ -224,6 +227,7 @@ label {
 /* project.html */
 
 .main-container {
+    position: relative;
     background-color: white;
     width: 1400px;
     height: 700px;
@@ -535,13 +539,20 @@ p {
 
 .alert {
     padding: 0;
-    margin: 0;
-    padding-top: 5px;
+    height: auto;
+    grid-column: 1 / -1;
     text-align: center;
+    align-self: center;
 }
+
 
 .navbar {
     margin-bottom: 100px;
+}
+
+.close {
+    background-color: white;
+    border: None;
 }
 
 @media (max-width:1660px) {

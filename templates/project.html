@@ -1,17 +1,17 @@
 {% include "header.html" %}
 
 <div class="main-container grid">
-
-        <!-- Project Section -->
+    {% if get_flashed_messages() %}
+    {% with messages = get_flashed_messages() %}
+    <div class="alert alert-danger" role="alert">
+        {{ messages[0] }}
+    </div>
+    {% endwith %}
+    {% endif %}
+    <!-- Project Section -->
 
     <div class="project-container grid">
-        {% if get_flashed_messages() %}
-            {% with messages = get_flashed_messages() %}
-            <div class="alert alert-danger" role="alert">
-                {{ messages[0] }}
-            </div>
-            {% endwith %}
-            {% endif %}
+
         <div class="project-description grid">
             <h4>Project Name</h4>
             <h4 class="second-item">Project Description</h4>
@@ -24,14 +24,14 @@
             <p><label class="small-screen-label">Project Name:</label>{{project[1]}}</p>
             <p class="second-item"><label class="small-screen-label">Project Description:</label>{{project[2]}}</p>
             <input class="last-item" type="text" id="mySearch" onkeyup="myTickets()" placeholder="Search..."
-                    title="Type in a category">
-                    <button data-toggle="modal" data-target="#edit-project"
+                title="Type in a category">
+            <button data-toggle="modal" data-target="#edit-project"
                 class="hide add-project-btn editProjectBtn last-item topcorner">Edit Project</button>
         </div>
 
     </div>
 
-        <!-- Developers Section -->
+    <!-- Developers Section -->
 
     <div id="devDiv" class="dev-container grid scroll">
         <div class="dev-description grid">
@@ -51,14 +51,15 @@
             <p class="overflow"><label class="small-screen-label">Email:</label>{{dev[4]}}</p>
             <p><label class="small-screen-label">Project Role:</label>{{dev[3]}}</p>
             {% if current_user.role == "Admin" %}
-            <a class="del-dev topcorner" href="{{url_for('delete_dev_project', id=dev[0], project_id=project[0])}}">❌</a>
+            <a class="del-dev topcorner"
+                href="{{url_for('delete_dev_project', id=dev[0], project_id=project[0])}}">❌</a>
             {% endif %}
 
         </span>
         {% endfor %}
     </div>
 
-        <!-- Tickets Section -->
+    <!-- Tickets Section -->
 
     <div id="myTickets" class="ticket-container grid scroll">
         <div class="ticket-description grid">
@@ -84,10 +85,10 @@
         {% endfor %}
     </div>
 
-        <!-- Edit Project Modal -->
+    <!-- Edit Project Modal -->
 
-    <div class="modal fade" id="edit-project" tabindex="-1" role="dialog"
-        aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal fade" id="edit-project" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -123,7 +124,7 @@
         </div>
     </div>
 
-        <!-- ADD Ticket Modal -->
+    <!-- ADD Ticket Modal -->
 
     <div class="modal fade" id="add-ticket" tabindex="-1" role="dialog" aria-labelledby="add-ticket" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -201,7 +202,7 @@
         </div>
     </div>
 
-        <!-- ADD Developer Modal -->
+    <!-- ADD Developer Modal -->
 
     <div class="modal fade" id="dev_id" tabindex="-1" role="dialog" aria-labelledby="dev_id" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
@@ -235,4 +236,4 @@
 </div>
 
 
-    {% include "footer.html" %}
+{% include "footer.html" %}
