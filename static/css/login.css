@@ -120,7 +120,7 @@ html {
 }
 
 body {
-  width: 100%;
+  width: 100vh;
   height: 100%;
   font-family: 'Open Sans', sans-serif;
   background: #092756;
