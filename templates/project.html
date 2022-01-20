@@ -25,8 +25,11 @@
             <p class="second-item"><label class="small-screen-label">Project Description:</label>{{project[2]}}</p>
             <input class="last-item" type="text" id="mySearch" onkeyup="myTickets()" placeholder="Search..."
                 title="Type in a category">
-            <button data-toggle="modal" data-target="#edit-project"
-                class="hide add-project-btn editProjectBtn last-item topcorner">Edit Project</button>
+                {% if current_user.role == "Project Manager" or current_user.role == "Admin" %}
+                <button data-toggle="modal" data-target="#edit-project"
+                    class="hide add-project-btn editProjectBtn last-item topcorner">Edit Project</button>
+                {% endif %}
+    
         </div>
 
     </div>
@@ -43,7 +46,10 @@
             {% endif %}
         </div>
         <h3 class="hide">Developers Assign</h3>
+        {% if current_user.role == "Project Manager" or current_user.role == "Admin" %}
         <button class="add-dev-btn topcorner hide" data-toggle="modal" data-target="#dev_id">Add Dev</button>
+        {% endif %}
+
 
         {% for dev in devs %}
         <span class="dev-data grid">
@@ -72,7 +78,10 @@
             {% endif %}
         </div>
         <h3 class="hide">Tickets</h3>
+        {% if current_user.role == "Project Manager" or current_user.role == "Admin" %}
         <button class="add-ticket-btn topcorner hide" data-toggle="modal" data-target="#add-ticket">New Ticket</button>
+        {% endif %}
+
 
         {% for ticket in tickets %}
         <span class="ticket-data grid">
