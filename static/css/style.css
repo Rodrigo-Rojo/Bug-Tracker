@@ -136,7 +136,7 @@ label {
 
 .project-title {
     grid-template-columns: 1fr 1fr;
-    align-items: center;
+    align-items: baseline;
 }
 
 
@@ -258,16 +258,12 @@ label {
 
 .data {
     grid-template-columns: 1fr 1fr 1fr;
-    align-items: center;
+    align-items: baseline;
 }
 
 .project-description, .project-data {
     grid-template-columns: 1fr 1fr 1fr;
-    align-items: center;
-}
-
-.project-data:hover, .dev-data:hover, .ticket-data:hover {
-    background-color: #e9ecef;
+    align-items: baseline;
 }
 
 .editProjectBtn {
@@ -291,7 +287,8 @@ label {
 }
 
 .dev-container {
-    grid-auto-rows: 35px;
+    grid-template-rows: 35px;
+    grid-auto-rows:  auto;
     border-right: 1px solid #e9ecef;
 }
 
@@ -299,8 +296,7 @@ label {
 .dev-data {
     grid-template-columns: 1fr 150px 1fr .8fr;
     column-gap: 10px;
-    align-items: center;
-
+    align-items: baseline;
 }
 
 
@@ -370,14 +366,15 @@ select {
 }
 
 .ticket-container {
-    grid-auto-rows: 35px;
+    grid-template-rows: 35px;
+    grid-auto-rows: auto;
     padding-left: 10px;
 }
 
 .ticket-description,
 .ticket-data {
     grid-template-columns: 2fr 1fr .5fr 1.5fr 1fr;
-    align-items: center;
+    align-items: baseline;
 }
 
 .add-ticket {
@@ -419,6 +416,10 @@ select {
     padding-bottom: 10px;
 }
 
+.comments-container {
+    align-items: baseline;
+}
+
 .comments {
     grid-template-columns: 1fr 1fr 1fr;
     grid-auto-rows: minmax(30px, auto);
@@ -440,10 +441,6 @@ select {
     font-weight: bold;
     color: #868e96;
     font-size: 14px;
-}
-
-.comments:hover {
-    background-color: #e9ecef;
 }
 
 .comment-btn {
