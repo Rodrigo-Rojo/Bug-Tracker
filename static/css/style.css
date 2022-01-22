@@ -8,6 +8,11 @@ a {
     text-decoration: None;
 }
 
+textarea {
+    width: auto;
+    height: auto;
+}
+
 h2, h3 {
     margin-bottom: 0;
 }
@@ -509,6 +514,15 @@ select {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.20);
     text-align: center;
     grid-template-rows: minmax(50px, 100px);
+    text-align: left;
+}
+
+.home-container h1, .home-container h2 {
+    text-align: center;
+}
+
+.home-container p {
+    font-size: large;
 }
 
 /* Footer */

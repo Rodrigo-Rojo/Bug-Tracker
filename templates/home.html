@@ -3,6 +3,33 @@
 <div class="home-container grid ">
     <h1>Welcome to my Bug Tracker</h1>
     <h2>{{ current_user.first_name }} {{ current_user.last_name }}</h2>
+    <div>
+        <h3>Resources</h3>
+        <p>This app was created using Python, Flask, SQLite, CSS and HTML.</p>
+        <h3>Login</h3>
+        <p>Oauth 2.0 Google is enabled</p>
+        <p>
+            You have access to 3 kinds of users <b>Admin</b>, <b>Project Manager</b> and <b>Developer</b>.
+        </p>
+        <p>
+            <b>Admin:</b> has complete access to manage the app.
+        </p>
+        <p>
+            <b>Project Manager:</b> has access to everything but to edit or delete users accounts.
+        </p>
+        <p>
+            <b>Developer:</b> has access to the projects where they have been assign.
+        </p>
+        <h3>
+            What can you do in this app?
+        </h3>
+        <p>
+            As a Admin or Project Manager you have access to all the projects in the database you can Create, Read, Update and Delete.
+            On each project you can add Developers that will get access to the project only if they have been added to the project.
+            You can also create Tickets for the projects and assign Developers to the tickets.
+            On each Ticket you have access to add comments.
+        </p>
+    </div>
 </div>
 
 
